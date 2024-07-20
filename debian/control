@@ -3,7 +3,6 @@ Section: unknown
 Priority: optional
 Maintainer: elysia <c.elysia@foxmail.com>
 Build-Depends:
- debhelper-compat (= 13),
  build-essential,
  docker.io
 Standards-Version: 3.9.4
