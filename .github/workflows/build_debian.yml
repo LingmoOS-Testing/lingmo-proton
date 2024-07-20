@@ -41,7 +41,7 @@ jobs:
           sudo git config --global --add safe.directory `pwd`
           sudo git config --global --add safe.directory `pwd`/proton
 
-          sudo dpkg-buildpackage --root-command=sudo -b -us -uc -tc
+          sudo dpkg-buildpackage --root-command=sudo -b -us -uc
           sudo mkdir -p artifacts_output
           sudo mv ../*.deb artifacts_output/
             
