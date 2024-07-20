@@ -31,11 +31,11 @@ jobs:
       - name: Build
         run: |
           sudo apt update; sudo apt install sudo devscripts equivs build-essential -y
-          mk-build-deps -i -t "apt -y" -r
+          sudo mk-build-deps -i -t "apt -y" -r
           sudo systemctl start docker
           dpkg-buildpackage --root-command=sudo -b -us -uc -tc
           mkdir -p artifacts_output
-          mv ../*.deb artifacts_output/
+          sudo mv ../*.deb artifacts_output/
             
       - name: Artifact
         uses: actions/upload-artifact@v4
