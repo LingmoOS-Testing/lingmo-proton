@@ -5,7 +5,7 @@ Maintainer: elysia <c.elysia@foxmail.com>
 Build-Depends:
  debhelper-compat (= 10),
  build-essential,
- docker.io
+ docker.io | docker-ce
 Standards-Version: 3.9.4
 Homepage: https://github.com/ValveSoftware/Proton
 Vcs-Browser: https://github.com/ValveSoftware/Proton
