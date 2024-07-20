@@ -28,6 +28,10 @@ jobs:
         with:
           submodules: 'recursive'
 
+      - name: Fix permission
+        run: |
+          sudo chown -R root ./
+
       - name: Build
         run: |
           sudo apt update; sudo apt install sudo devscripts equivs build-essential -y
@@ -37,8 +41,8 @@ jobs:
           sudo git config --global --add safe.directory `pwd`
           sudo git config --global --add safe.directory `pwd`/proton
 
-          dpkg-buildpackage --root-command=sudo -b -us -uc -tc
-          mkdir -p artifacts_output
+          sudo dpkg-buildpackage --root-command=sudo -b -us -uc -tc -j1
+          sudo mkdir -p artifacts_output
           sudo mv ../*.deb artifacts_output/
             
       - name: Artifact
