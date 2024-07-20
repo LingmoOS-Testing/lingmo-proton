@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 jobs:
   debian:
-    name: Building Proton on Ubuntu 20.04
-    runs-on: ubuntu-20.04
+    name: Building Proton on Ubuntu 22.04
+    runs-on: ubuntu-22.04
     permissions: write-all
     steps:
       - name: Maximize build space
