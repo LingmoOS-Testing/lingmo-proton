@@ -28,3 +28,6 @@ override_dh_auto_test:
 # This is an example for Cmake (see <https://bugs.debian.org/641051>).
 # override_dh_auto_configure:
 # 	mkdir -p build && cd build && ../configure.sh
+
+override_dh_strip_nondeterminism:
+	
