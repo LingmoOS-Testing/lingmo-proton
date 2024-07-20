@@ -1,0 +1,4 @@
+[submodule "proton"]
+	path = proton
+	url = git@github.com:ValveSoftware/Proton.git
+	branch = proton_9.0
