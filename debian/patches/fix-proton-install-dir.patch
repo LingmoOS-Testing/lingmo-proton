@@ -1,0 +1,18 @@
+Fix install path
+--- a/proton/Makefile.in
++++ b/proton/Makefile.in
+@@ -1181,11 +1181,9 @@
+ STEAM_DIR := $(HOME)/.steam/root
+ .PHONY: install
+ install: all
+-	if [ ! -d $(STEAM_DIR) ]; then echo >&2 "!! "$(STEAM_DIR)" does not exist, cannot install"; return 1; fi
+-	mkdir -p $(STEAM_DIR)/compatibilitytools.d/$(BUILD_NAME)
+-	rsync --delete -arx $(DST_BASE)/* $(STEAM_DIR)/compatibilitytools.d/$(BUILD_NAME)
+-	@echo "Installed Proton to "$(STEAM_DIR)/compatibilitytools.d/$(BUILD_NAME)
+-	@echo "You may need to restart Steam to select this tool"
++	mkdir -p $(DESTDIR)/opt/lingmo-proton/$(BUILD_NAME)
++	rsync --delete -arx $(DST_BASE)/* $(DESTDIR)/opt/lingmo-proton/$(BUILD_NAME)
++	@echo "Installed Proton to "$(DESTDIR)/opt/lingmo-proton/$(BUILD_NAME)
+ 
+ 
+ .PHONY: help targets
