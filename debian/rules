@@ -24,5 +24,6 @@ override_dh_clean:
 
 override_dh_auto_test:
 
-override_dh_strip_nondeterminism:
+# Do noting for it
+dh_strip_nondeterminism:
 	
