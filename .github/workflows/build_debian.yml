@@ -32,6 +32,11 @@ jobs:
         run: |
           sudo chown -R root ./
 
+      - name: Enable 32bit lib
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt update
+
       - name: Build
         run: |
           sudo apt update; sudo apt install sudo devscripts equivs build-essential -y
@@ -44,6 +49,10 @@ jobs:
           sudo dpkg-buildpackage --root-command=sudo -b -us -uc
           sudo mkdir -p artifacts_output
           sudo mv ../*.deb artifacts_output/
+
+      - name: Restore permission
+        run: |
+          sudo chown -R $USER ./
             
       - name: Artifact
         uses: actions/upload-artifact@v4
