@@ -18,12 +18,6 @@
 %:
 	dh $@
 
-override_dh_auto_clean:
-
-override_dh_clean:
-
-override_dh_auto_test:
-
-# Do noting for it
-dh_strip_nondeterminism:
+override_dh_strip_nondeterminism:
+	dh_strip_nondeterminism --exclude=xpi --exclude=@
 	
