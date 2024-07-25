@@ -36,11 +36,10 @@ override_dh_auto_configure:
 	bash -c "cd $(CURDIR)/build-$(DEB_HOST_MULTIARCH) && ../proton/configure.sh --build-name=spark-proton$(VERSION)"
 
 override_dh_auto_build:
-	make -C $(CURDIR)/build-$(DEB_HOST_MULTIARCH)
+	bash -c "cd $(CURDIR)/build-$(DEB_HOST_MULTIARCH) && make"
 
 override_dh_auto_install:
-	make -C $(CURDIR)/build-$(DEB_HOST_MULTIARCH) install \
-	SPARK_INSTALL_ROOT=$(CURDIR)/debian/spark-proton$(VERSION)
+	bash -c "cd $(CURDIR)/build-$(DEB_HOST_MULTIARCH) && make install SPARK_INSTALL_ROOT=$(CURDIR)/debian/spark-proton$(VERSION)"
 	
 override_dh_strip_nondeterminism:
 	dh_strip_nondeterminism --exclude=xpi --exclude=@
