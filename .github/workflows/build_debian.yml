@@ -40,10 +40,9 @@ jobs:
       - name: Build
         run: |
           sudo apt update; sudo apt install sudo devscripts equivs build-essential -y
-          
-          sudo apt install -y binutils-mingw-w64-x86-64 bison comerr-dev flex fontforge-common fontforge-nox fonts-cantarell fonts-inconsolata freeglut3 freeglut3-dev   gcc-mingw-w64-base gcc-mingw-w64-x86-64 gir1.2-gst-plugins-base-1.0 gir1.2-gstreamer-1.0 gir1.2-ibus-1.0 icoutils javascript-common   khronos-api krb5-multidev libasound2-dev libbison-dev libbrotli-dev libcapi20-dev libcups2-dev libcupsfilters-dev libcupsimage2-dev   libdbus-1-dev libegl-dev libegl1-mesa-dev libexif-dev libexif-doc libfl-dev libfontconfig1-dev libfontforge2 libfreetype-dev   libfreetype6-dev libgdraw5 libgettextpo-dev libgl-dev libgl1-mesa-dev libgles-dev libgles2-mesa-dev libglu1-mesa-dev libglvnd-dev   libglx-dev libgphoto2-dev libgsm1-dev libgssrpc4 libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libibus-1.0-5 libibus-1.0-dev   libice-dev libjbig-dev libjpeg-dev libjpeg62-turbo-dev libjs-jquery libjxr-dev libkadm5clnt-mit11 libkadm5srv-mit11 libkdb5-9 libkrb5-dev   liblcms2-dev libldap2-dev liblzma-dev libmpg123-dev libncurses-dev libncurses5-dev libopenal-dev libopengl-dev liborc-0.4-dev   liborc-0.4-dev-bin libosmesa6-dev libout123-0 libpcap0.8-dev libpng-dev libpng-tools libpthread-stubs0-dev libpulse-dev libsdl2-dev   libsm-dev libsndio-dev libspiro0 libstb0 libtiff-dev libtiffxx5 libudev-dev libuninameslist1 libunwind-dev libv4l-dev libv4l2rds0   libvkd3d-dev libvkd3d-utils1 libvulkan-dev libwayland-bin libwayland-dev libx11-dev libx11-xcb-dev libxau-dev libxcb1-dev   libxcomposite-dev libxcursor-dev libxdmcp-dev libxext-dev libxfixes-dev libxi-dev libxinerama-dev libxkbcommon-dev libxkbfile-dev   libxml-simple-perl libxmu-dev libxmu-headers libxrandr-dev libxrender-dev libxslt1-dev libxss-dev libxt-dev libxv-dev libxxf86dga-dev   libxxf86vm-dev libz-mingw-w64 libz-mingw-w64-dev mingw-w64-common mingw-w64-x86-64-dev ocl-icd-opencl-dev opencl-c-headers   proton-build-deps quilt unicode-data unixodbc-dev x11proto-composite-dev x11proto-core-dev x11proto-dev x11proto-fixes-dev   x11proto-input-dev x11proto-randr-dev x11proto-scrnsaver-dev x11proto-xext-dev x11proto-xf86dga-dev x11proto-xf86vidmode-dev   x11proto-xinerama-dev xorg-sgml-doctools xtrans-dev 
 
-          sudo mk-build-deps -i -t "apt -y" -r
+          sudo mk-build-deps
+          sudo apt install -y ./proton-build-deps*
           sudo systemctl start docker
 
           sudo git config --global --add safe.directory `pwd`
