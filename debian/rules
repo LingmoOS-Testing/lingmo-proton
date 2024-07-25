@@ -14,17 +14,39 @@
 # Package maintainers to append LDFLAGS.
 #export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+DEB_BUILD_ARCH ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+export VERSION = 9
+
+debian/control: debian/control.in
+	sed "s/VERSION/$(VERSION)/g" < $< > $@
 
 %:
 	dh $@
 
+override_dh_auto_clean:
+	rm -rf $(CURDIR)/build-$(DEB_HOST_MULTIARCH)
+	rm -rf $(CURDIR)/debian/spark-proton$(VERSION)
+
+override_dh_auto_configure:
+	mkdir -p $(CURDIR)/build-$(DEB_HOST_MULTIARCH)
+	bash -c "cd $(CURDIR)/build-$(DEB_HOST_MULTIARCH) && $(CURDIR)/proton/configure.sh --build-name=spark-proton$(VERSION)"
+
+override_dh_auto_build:
+	make -C $(CURDIR)/build-$(DEB_HOST_MULTIARCH) -j$(JOBS)
+
+override_dh_auto_install:
+	make -C $(CURDIR)/build-$(DEB_HOST_MULTIARCH) install \
+	SPARK_INSTALL_ROOT=$(CURDIR)/debian/spark-proton$(VERSION)
+	
 override_dh_strip_nondeterminism:
 	dh_strip_nondeterminism --exclude=xpi --exclude=@
 	
 override_dh_shlibdeps:
-	dh_shlibdeps -- --ignore-missing-info
+	echo "dh_shlibdeps: skipping"
 
 override_dh_makeshlibs:
-	# avoid unnecessary calls to ldconfig
-	dh_makeshlibs -n
-
+	echo "dh_makeshlibs: skipping"

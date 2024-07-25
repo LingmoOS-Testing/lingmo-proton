@@ -1,4 +1,4 @@
-Source: proton
+Source: protonVERSION
 Section: unknown
 Priority: optional
 Maintainer: elysia <c.elysia@foxmail.com>
@@ -10,9 +10,9 @@ Homepage: https://github.com/ValveSoftware/Proton
 Vcs-Browser: https://github.com/ValveSoftware/Proton
 Vcs-Git: https://github.com/ValveSoftware/Proton.git
 
-Package: lingmo-proton
+Package: spark-protonVERSION
 Architecture: any
 Depends:
- ${misc:Depends},
+ ${misc:Depends}
 Description: Compatibility tool for Steam Play based on Wine and additional components
 
