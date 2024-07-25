@@ -1,0 +1,68 @@
+name: Build
+
+permissions: write-all
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  debian:
+    name: Building Proton on Ubuntu 22.04
+    runs-on: ubuntu-22.04
+    permissions: write-all
+    steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 20480
+          swap-size-mb: 512
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          remove-codeql: 'true'
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Fix permission
+        run: |
+          sudo chown -R root ./
+
+      - name: Enable 32bit lib
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt update
+
+      - name: Build
+        run: |
+          sudo apt update; sudo apt install sudo git devscripts equivs build-essential -y
+
+          sudo bash ./get-proton.sh
+
+          sudo make -f ./debian/rules debian/control
+
+          sudo mk-build-deps -i -t "apt -y" -r
+          sudo systemctl start docker
+
+          sudo git config --global --add safe.directory `pwd`
+          sudo git config --global --add safe.directory `pwd`/proton
+
+          sudo dpkg-buildpackage --root-command=sudo -b -us -uc
+          sudo mkdir -p artifacts_output
+          sudo mv ../*.deb artifacts_output/
+
+      - name: Restore permission
+        run: |
+          sudo chown -R $USER ./
+            
+      - name: Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact
+          path: ${{ github.workspace }}/artifacts_output/*
+          compression-level: 9 # maximum compression
+          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`

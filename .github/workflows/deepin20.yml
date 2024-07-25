@@ -28,32 +28,34 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - name: Fix permission
-        run: |
-          sudo chown -R root ./
+      - name: Run in container
+        uses: addnab/docker-run-action@v3
+        with:
+          image: docker.io/x11docker/deepin:latest
+          options: --privileged -v ${{ github.workspace }}:/work
+          run: |
+            cd /work
+            chown -R root ./
 
-      - name: Enable 32bit lib
-        run: |
-          sudo dpkg --add-architecture i386
-          sudo apt update
+            apt update && apt upgrade -y
+            apt install sudo git devscripts equivs build-essential -y debootstrap mtools -y
 
-      - name: Build
-        run: |
-          sudo apt update; sudo apt install sudo devscripts equivs build-essential -y
+            sudo dpkg --add-architecture i386
+            sudo apt update
 
-          sudo bash ./get-proton.sh
+            git config --global --add safe.directory /work
 
-          sudo make -f ./debian/rules debian/control
+            sudo make -f ./debian/rules debian/control
 
-          sudo mk-build-deps -i -t "apt -y" -r
-          sudo systemctl start docker
+            sudo mk-build-deps -i -t "apt -y" -r
+            sudo systemctl start docker
 
-          sudo git config --global --add safe.directory `pwd`
-          sudo git config --global --add safe.directory `pwd`/proton
+            sudo bash ./get-proton.sh
+            git config --global --add safe.directory /work/proton
 
-          sudo dpkg-buildpackage --root-command=sudo -b -us -uc
-          sudo mkdir -p artifacts_output
-          sudo mv ../*.deb artifacts_output/
+            sudo dpkg-buildpackage --root-command=sudo -b -us -uc
+            sudo mkdir -p artifacts_output
+            sudo mv ../*.deb artifacts_output/
 
       - name: Restore permission
         run: |
