@@ -33,7 +33,7 @@ override_dh_auto_clean:
 
 override_dh_auto_configure:
 	mkdir -p $(CURDIR)/build-$(DEB_HOST_MULTIARCH)
-	bash -c "cd $(CURDIR)/build-$(DEB_HOST_MULTIARCH) && $(CURDIR)/proton/configure.sh --build-name=spark-proton$(VERSION)"
+	bash -c "cd $(CURDIR)/build-$(DEB_HOST_MULTIARCH) && ../proton/configure.sh --build-name=spark-proton$(VERSION)"
 
 override_dh_auto_build:
 	make -C $(CURDIR)/build-$(DEB_HOST_MULTIARCH)
