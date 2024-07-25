@@ -42,7 +42,7 @@ jobs:
           sudo apt update; sudo apt install sudo devscripts equivs build-essential -y
 
           sudo mk-build-deps
-          sudo apt install -y ./proton-build-deps*
+          sudo apt install -y ./proton-build-deps*.deb
           sudo systemctl start docker
 
           sudo git config --global --add safe.directory `pwd`
